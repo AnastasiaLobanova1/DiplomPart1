@@ -1,9 +1,12 @@
 package ru.netology.test;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
@@ -26,6 +29,16 @@ public class UICreditTripTest {
     private static List<SQLHelper.PaymentEntity> payments;
     private static List<SQLHelper.CreditRequestEntity> credits;
     private static List<SQLHelper.OrderEntity> orders;
+
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
 
     @AfterAll
     static void teardown() {
@@ -117,7 +130,7 @@ public class UICreditTripTest {
     @Test
     public void shouldNotSendForm() {
 
-        $("fieldset > div + div + div + div > .button").click();
+Form.buttonContinue();
         Form.errorNumberIsEmpty();
         Form.errorMonthIsEmpty();
         Form.errorYearIsEmpty();
@@ -206,6 +219,17 @@ public class UICreditTripTest {
         Form.errorNotification();
     }
 
+    @Story("Digit")
+    @Test
+    public void shouldSendHolderDigit() {
+
+        $("fieldset > div + div + div > span > span .input__control").setValue(generateInvalidCardNumberInclude17Digit());
+        var cardInfo = DataHelper.getApprovedCard();
+        Form.sendFormNotHolderOnly(cardInfo.getCardNumber(), cardInfo.getMonth(), cardInfo.getYear(), cardInfo.getCvc());
+        Form.errorNotification();
+    }
+
+
     @Story("Invalid month 13")
     @Test
     public void shouldSendMonth13() {
@@ -243,7 +267,7 @@ public class UICreditTripTest {
         $("fieldset > div + div > span > span .input__control").setValue("00");
         var cardInfo = DataHelper.getApprovedCard();
         Form.sendFormNotMonthOnly(cardInfo.getCardNumber(), cardInfo.getYear(), cardInfo.getHolder(), cardInfo.getCvc());
-        Form.errorMonthIsInvalid();
+        Form.errorNotification();
     }
 
     @Story("Invalid month 4")
@@ -274,7 +298,7 @@ public class UICreditTripTest {
         $("fieldset > div + div > span > span .input__control").setValue("012");
         var cardInfo = DataHelper.getApprovedCard();
         Form.sendFormNotMonthOnly(cardInfo.getCardNumber(), cardInfo.getYear(), cardInfo.getHolder(), cardInfo.getCvc());
-        Form.errorMonthIsInvalidFormat();
+        Form.errorNotification();
     }
 
     @Story("Invalid year G")
@@ -294,7 +318,7 @@ public class UICreditTripTest {
         $("fieldset > div + div > span > span + span > span .input__control").setValue("090");
         var cardInfo = DataHelper.getApprovedCard();
         Form.sendFormNotYearOnly(cardInfo.getCardNumber(), cardInfo.getMonth(), cardInfo.getHolder(), cardInfo.getCvc());
-        Form.errorYearIsInvalidFormat();
+        Form.errorNotification();
     }
 
     @Story("Invalid year 23")

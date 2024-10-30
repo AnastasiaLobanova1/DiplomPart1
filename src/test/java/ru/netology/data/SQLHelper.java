@@ -22,9 +22,10 @@ public class SQLHelper {
     private static QueryRunner runner;
     private static Connection conn;
 
-    private SQLHelper () {
+    private SQLHelper() {
 
     }
+
     @SneakyThrows
     private static Connection getConn() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
@@ -32,7 +33,7 @@ public class SQLHelper {
 
     @SneakyThrows
     public static void cleanDatabase() {
-var connection = getConn();
+        var connection = getConn();
         runner.execute(conn, "DELETE FROM credit_request_entity");
         runner.execute(conn, "DELETE FROM payment_entity");
         runner.execute(conn, "DELETE FROM order_entity");

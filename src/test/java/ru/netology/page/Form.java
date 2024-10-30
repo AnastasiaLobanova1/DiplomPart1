@@ -57,6 +57,9 @@ public class Form {
         $(".notification_status_error > .notification__title").shouldBe(text("Ошибка"));
         $(".notification_status_error > .notification__content").shouldBe(text("Ошибка! Банк отказал в проведении операции."));
     }
+    public void buttonContinue(){
+        buttonContinue.click();
+    }
 
     public void sendFormCardNumberOnly(String cardNumber) {
         inputNumber.setValue(cardNumber);

@@ -12,12 +12,37 @@
 4. Выполнить команду git clone в локальный репозиторий
 5. Открыть проект в IntellijIdea
 6. Запустить Docker Desktop
-7. В терминале в корне проекта запустить контейнер:
+
+### Подключение SUT к MySQL
+1. В терминале в корне проекта запустить контейнер:
   
 docker-compose up -d
 
-8. Запустить приложение 
+2. Запустить приложение 
 
-java -jar aqa-shop.jar
+java -jar aqa-shop.jar --spring.datasource.url=jdbc:mysql://localhost:3306/app
 
+3. Запустить автотесты
 
+.\gradlew clean test -DdbUrl=jdbc:mysql://localhost:3306/app
+
+4. Создать отчеты Allure
+
+.\gradlew allureServe
+
+### Подключение SUT к PostgreSQL
+1. В терминале в корне проекта запустить контейнер:
+
+docker-compose up -d
+
+2. Запустить приложение
+
+java -jar aqa-shop.jar --spring.datasource.url=jdbc:postgresql://localhost:5432/app
+
+3. Запустить автотесты
+
+.\gradlew clean test -DdbUrl=jdbc:postgresql://localhost:5432/app
+
+4. Создать отчеты Allure
+
+.\gradlew allureServe

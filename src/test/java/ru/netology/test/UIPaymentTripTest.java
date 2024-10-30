@@ -204,6 +204,16 @@ public class UIPaymentTripTest {
         Form.errorNotification();
     }
 
+    @Story("Digit")
+    @Test
+    public void shouldSendHolderDigit() {
+
+        $("fieldset > div + div + div > span > span .input__control").setValue(generateInvalidCardNumberInclude17Digit());
+        var cardInfo = DataHelper.getApprovedCard();
+        Form.sendFormNotHolderOnly(cardInfo.getCardNumber(), cardInfo.getMonth(), cardInfo.getYear(), cardInfo.getCvc());
+        Form.errorNotification();
+    }
+
     @Story("Invalid month 13")
     @Test
     public void shouldSendMonth13() {
