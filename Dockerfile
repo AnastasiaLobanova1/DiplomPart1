@@ -10,10 +10,10 @@ ENV NODE_PORT=9999
 WORKDIR $HOME
 
 # копирование файлов
-COPY ./gate-simulator/package.json $HOME/
-COPY ./gate-simulator/package-lock.json $HOME/
-COPY ./gate-simulator/data.json $HOME/
-COPY ./gate-simulator/app.js $HOME/
+COPY package.json $HOME/
+COPY package-lock.json $HOME/
+COPY data.json $HOME/
+COPY app.js $HOME/
 
 # установка модулей приложения
 RUN npm install && npm cache clean --force
