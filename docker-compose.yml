@@ -18,7 +18,7 @@ services:
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
   npm-app:
-      build: ./gate-simulator/
+      build: .
       image: gate-simulator:1.0
 
       ports:
