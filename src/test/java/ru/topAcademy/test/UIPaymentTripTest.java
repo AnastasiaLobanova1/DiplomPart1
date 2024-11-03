@@ -128,7 +128,7 @@ public class UIPaymentTripTest {
 
     @Story("Empty")
     @Test
-    public void shouldNotSendForm() {
+    public void shouldSendEmptyForm() {
 
         Form.buttonContinue();
         Form.errorNumberIsEmpty();
@@ -184,8 +184,9 @@ public class UIPaymentTripTest {
     @Test
     public void shouldSendNullsCardNumber() {
 
+        var number = DataHelper.generateNullsNumberCard();
         var cardInfo = DataHelper.getApprovedCard();
-        Form.sendFormValid("0000 0000 0000 0000", cardInfo.getMonth(), cardInfo.getYear(), cardInfo.getHolder(), cardInfo.getCvc());
+        Form.sendFormValid(number, cardInfo.getMonth(), cardInfo.getYear(), cardInfo.getHolder(), cardInfo.getCvc());
         Form.errorNotification();
     }
 

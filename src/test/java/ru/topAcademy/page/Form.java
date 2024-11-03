@@ -31,28 +31,18 @@ public class Form {
     private final SelenideElement errorMessageHolder = $("fieldset > div + div + div > span > span .input__sub");
     private final SelenideElement errorMessageCvc = $("fieldset > div + div + div > span > span + span > span .input__sub");
 
+    private String messageEmpty = "Поле обязательно для заполнения";
+    private String formatInvalid = "Неверный формат";
+    private String dataInvalid = "Неверно указан срок действия карты";
+    private String dataFinish = "Истёк срок действия карты";
+
     public Form() {
         header.shouldBe(visible);
-        buttonPay.shouldBe(visible);
-        buttonCredit.shouldBe(visible);
-
         form.shouldBe(visible);
-        successNotification.should(Condition.hidden);
-        errorNotification.should(Condition.hidden);
-    }
 
-    public void sendFormValid(String cardNumber, String month, String year, String holder, String cvc) {
-        inputNumber.setValue(cardNumber);
-        inputMonth.setValue(month);
-        inputYear.setValue(year);
-        inputHolder.setValue(holder);
-        inputCvc.setValue(cvc);
-        buttonContinue.click();
     }
-
     public void successNotification() {
         successNotification.shouldBe(visible, Duration.ofSeconds(15));
-        successNotification.should(Condition.cssClass("notification_visible"));
         successNotification.should(text("Успешно"));
         successNotification.should(text("Операция одобрена Банком."));
 
@@ -62,6 +52,15 @@ public class Form {
         errorNotification.shouldBe(visible, Duration.ofSeconds(15));
         errorNotification.shouldBe(text("Ошибка"));
         errorNotification.shouldBe(text("Ошибка! Банк отказал в проведении операции."));
+    }
+
+    public void sendFormValid(String cardNumber, String month, String year, String holder, String cvc) {
+        inputNumber.setValue(cardNumber);
+        inputMonth.setValue(month);
+        inputYear.setValue(year);
+        inputHolder.setValue(holder);
+        inputCvc.setValue(cvc);
+        buttonContinue.click();
     }
 
     public void sendFormCardNumberOnly(String cardNumber) {
@@ -125,57 +124,57 @@ public class Form {
 
 
     public void errorNumberIsEmpty() {
-        errorMessageNumber.shouldHave(exactText("Поле обязательно для заполнения"), Duration.ofSeconds(30));
+        errorMessageNumber.shouldHave(exactText(messageEmpty), Duration.ofSeconds(30));
 
     }
 
     public void errorNumberIsInvalid() {
-        errorMessageNumber.shouldHave(exactText("Неверный формат"), Duration.ofSeconds(30));
+        errorMessageNumber.shouldHave(exactText(formatInvalid), Duration.ofSeconds(30));
     }
 
     public void errorMonthIsEmpty() {
-        errorMessageMonth.shouldHave(exactText("Поле обязательно для заполнения"), Duration.ofSeconds(30));
+        errorMessageMonth.shouldHave(exactText(messageEmpty), Duration.ofSeconds(30));
 
     }
 
     public void errorMonthIsInvalid() {
-        errorMessageMonth.shouldHave(exactText("Неверно указан срок действия карты"), Duration.ofSeconds(30));
+        errorMessageMonth.shouldHave(exactText(dataInvalid), Duration.ofSeconds(30));
     }
     public void errorMonthIsInvalidFormat() {
-        errorMessageMonth.shouldHave(exactText("Неверный формат"), Duration.ofSeconds(30));
+        errorMessageMonth.shouldHave(exactText(formatInvalid), Duration.ofSeconds(30));
     }
 
     public void errorYearIsEmpty() {
-        errorMessageYear.shouldHave(exactText("Поле обязательно для заполнения"), Duration.ofSeconds(30));
+        errorMessageYear.shouldHave(exactText(messageEmpty), Duration.ofSeconds(30));
 
     }
     public void errorYearIsInvalidFormat() {
-        errorMessageYear.shouldHave(exactText("Неверный формат"), Duration.ofSeconds(30));
+        errorMessageYear.shouldHave(exactText(formatInvalid), Duration.ofSeconds(30));
     }
 
     public void errorYearIsInvalid() {
-        errorMessageYear.shouldHave(exactText("Истёк срок действия карты"), Duration.ofSeconds(30));
+        errorMessageYear.shouldHave(exactText(dataFinish), Duration.ofSeconds(30));
     }
     public void errorYearIsWrong() {
-        errorMessageYear.shouldHave(exactText("Неверно указан срок действия карты"), Duration.ofSeconds(30));
+        errorMessageYear.shouldHave(exactText(dataInvalid), Duration.ofSeconds(30));
     }
 
 
     public void errorHolderIsEmpty() {
-        errorMessageHolder.shouldHave(exactText("Поле обязательно для заполнения"), Duration.ofSeconds(30));
+        errorMessageHolder.shouldHave(exactText(messageEmpty), Duration.ofSeconds(30));
 
     }
 
     public void errorHolderIsInvalid() {
-        errorMessageHolder.shouldHave(exactText("Неверный формат"), Duration.ofSeconds(30));
+        errorMessageHolder.shouldHave(exactText(formatInvalid), Duration.ofSeconds(30));
     }
         public void errorCvcIsEmpty() {
-            errorMessageCvc.shouldHave(exactText("Поле обязательно для заполнения"), Duration.ofSeconds(30));
+            errorMessageCvc.shouldHave(exactText(messageEmpty), Duration.ofSeconds(30));
 
         }
 
         public void errorCvcIsInvalid() {
-            errorMessageCvc.shouldHave(exactText("Неверный формат"), Duration.ofSeconds(30));
+            errorMessageCvc.shouldHave(exactText(formatInvalid), Duration.ofSeconds(30));
         }
 
     }

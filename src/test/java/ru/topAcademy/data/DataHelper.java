@@ -11,6 +11,8 @@ import java.util.Locale;
 
 public class DataHelper {
     private static final Faker faker = new Faker(new Locale("en"));
+    private DataHelper() {
+    }
 
     @Value
     public static class CardInfo {
@@ -31,11 +33,12 @@ public class DataHelper {
         return new CardInfo(getNumberByStatus("approved"), generateMonth(1), generateYear(5), generateValidHolder(), generateValidCVC());
     }
     public static CardInfo getApprovedCardMonthMinusOneSixYears() {
-        return new CardInfo(getNumberByStatus("approved"), generateMonth(-11), generateYear(6), generateValidHolder(), generateValidCVC());
+        return new CardInfo(getNumberByStatus("approved"), generateMonth(-1), generateYear(6), generateValidHolder(), generateValidCVC());
     }
     public static DataHelper.CardInfo getDeclinedCard() {
         return new DataHelper.CardInfo(getNumberByStatus("declined"), generateMonth(1), generateYear(1), generateValidHolder(), generateValidCVC());
     }
+
    public static String getNumberByStatus(String status) {
         if (status.equalsIgnoreCase("APPROVED")) {
             return "4444 4444 4444 4441";
@@ -99,6 +102,13 @@ public class DataHelper {
     }
     public static String generateInvalidCvcInclude4Digit() {
         return faker.numerify("####");
+
+
+    }
+    public static String generateNullsNumberCard() {
+        return ("0000 0000 0000 0000");
+
+
     }
 
 
