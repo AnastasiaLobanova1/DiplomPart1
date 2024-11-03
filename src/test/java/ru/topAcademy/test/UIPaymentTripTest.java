@@ -1,17 +1,22 @@
 package ru.topAcademy.test;
 
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.topAcademy.data.DataHelper;
 import ru.topAcademy.data.SQLHelper;
 import ru.topAcademy.page.Form;
 import ru.topAcademy.page.Page;
+
 import java.util.List;
+
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,10 +31,19 @@ public class UIPaymentTripTest {
     private static List<SQLHelper.Credit_Request_Entity> credits;
     private static List<SQLHelper.OrderEntity> orders;
 
-//    @AfterAll
+    //    @AfterAll
 //    static void teardown() {
 //        cleanDatabase();
 //    }
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
 
     @BeforeEach
     public void setUp() {
@@ -214,6 +228,7 @@ public class UIPaymentTripTest {
         Form.sendFormValid(cardInfo.getCardNumber(), cardInfo.getMonth(), cardInfo.getYear(), holder, cardInfo.getCvc());
         Form.errorNotification();
     }
+
     @Story("RandomSymbol")
     @Test
     public void shouldSendRandomSymbol() {
@@ -332,6 +347,7 @@ public class UIPaymentTripTest {
         Form.sendFormValid(cardInfo.getCardNumber(), cardInfo.getMonth(), cardInfo.getYear(), cardInfo.getHolder(), cardInfo.getCvc());
         Form.successNotification();
     }
+
     @Story("Valid month -1 year +6")
     @Test
     public void shouldSendMonthMinusOneYearPlusSix() {
